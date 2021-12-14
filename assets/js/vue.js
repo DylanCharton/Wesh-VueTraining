@@ -21,6 +21,7 @@ const Home = {
         return{
          products,  
          searchKey:'', 
+         liked : []
         }
         
     },
@@ -30,10 +31,24 @@ const Home = {
             return this.products.filter((product) =>{
                 return product.description.toLowerCase().includes(this.searchKey.toLowerCase())
             })
+        },
+        getLikedCookie(){
+            let cookieValue = JSON.parse($cookies.get('like'));
+            cookieValue == null ? this.liked = [] : this.liked = cookieValue;
         }
 
     },
     // methods Attend d'être déclenché
+    methods:{
+        setLikedCookie(){
+            document.addEventListener('input', ()=>{
+                setTimeout(()=>{
+                   $cookies.set('like', JSON.stringify(this.liked)); 
+                }, 300);
+                
+            })
+        }
+    }
     
 }
 const UserSettings = {
