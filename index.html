@@ -21,7 +21,7 @@
       <div class="nav-container">
         <div id="logo">
           <router-link to="/"></router-link>
-            <img src="./assets/img/wish-logo-800.png" alt="logo" />
+          <img src="./assets/img/wish-logo-800.png" alt="logo" />
           </router-link>
         </div>
 
@@ -34,7 +34,7 @@
           <li>
             <router-link to="/wish-list">
               <i class="fas fa-heart"></i>
-              <span id="nav-notif"></span>
+              <span id="nav-not"></span>
             </router-link>
           </li>
           <li>
@@ -49,8 +49,8 @@
     <router-view></router-view>
 
   </div>
- <script type="text/x-template" id="home">
-   <div class="home-container">
+  <script type="text/x-template" id="home">
+    <div class="home-container">
      <h1>Article</h1>
 
      <!-- search display -->
@@ -88,7 +88,7 @@
               </label>
             </div>
             <div class="add-to-cart">
-              <button>
+              <button v-on:click="addToCart(product)">
                 <i class="fas fa-shopping-cart"></i>
               </button>
               
@@ -100,6 +100,47 @@
           <h3>Pas de résultat !</h3>
 
          </div>
+       </div>
+
+       <!-- Cart display -->
+       <div class="shopping-cart" id="shopping-cart" v-if="cart.length > 0">
+         <h2>Panier</h2>
+
+          <div class="item-group">
+
+            <div v-for="product, id in cart" v-bind:key="product.id" class="item">
+
+              <div class="img-container">
+                <img v-bind:src="product.img" alt="">
+              </div>
+              <div class="item-description">
+                <h4>{{ product.description }}</h4>
+                <p>{{product.price}}€</p>
+              </div>
+                <div class="item-quantity">
+                  <h6>Quantité : {{ product.quantity }}</h6>
+                  <div class="cart-icons">
+                    <button v-on:click="cartPlusOne(product)">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                    <button v-on:click="cartMinusOne(product, id)">
+                      <i class="fa fa-minus"></i>
+                    </button>
+                    <button v-on:click="cartRemoveItem(id)">
+                      <i  class="fa fa-trash"></i>
+                    </button>
+
+                  </div>
+                </div>
+            </div>   
+          </div>
+          <div class="grand-total">
+            <div class="total">
+              <h2>Total</h2>
+              <h2>{{ cartTotalAmount }}€</h2>
+            </div>
+            <h6>Total articles : {{ itemTotalAmount }}</h6>
+          </div>
        </div>
      </div>
    </div>
