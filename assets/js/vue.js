@@ -15,19 +15,26 @@ const products = [
   ];
 
 const Home = {
+    // Defining the template accordingly to what is seized in the script/x-template on the index
     template : '#home',
     name: 'Home',
+    // "data" is a naming convention for the content I think
+    // Here it contains a function that returns the array products, so when calling products it calls its content
     data: ()=>{
         return{
          products,  
+        //  the property used as a v-model in the input field
          searchKey:'', 
+        //  the array filled with the checkboxes when they are checked
          liked : [],
+        //  the cart, filling with the products
          cart: [],
         }
         
     },
     // Surveille en permanence
     computed: {
+        // function to filter what is displayed according to the searchKey field. 
         filteredList(){
             return this.products.filter((product) =>{
                 return product.description.toLowerCase().includes(this.searchKey.toLowerCase())
@@ -35,6 +42,7 @@ const Home = {
         },
         getLikedCookie(){
             let cookieValue = JSON.parse($cookies.get('like'));
+            // if cookieValue is empty, 'liked' is emptied. Otherwise, 'liked' is filled with the parsed JSON
             cookieValue == null ? this.liked = [] : this.liked = cookieValue;
         },
         cartTotalAmount(){
@@ -58,6 +66,7 @@ const Home = {
         setLikedCookie(){
             document.addEventListener('input', ()=>{
                 setTimeout(()=>{
+                    // $cookies obtained through https://github.com/cmp-cc/vue-cookies
                    $cookies.set('like', JSON.stringify(this.liked)); 
                 }, 300);
                 
@@ -66,6 +75,7 @@ const Home = {
         addToCart(product){
             // check if already in array
             for(let i = 0; i < this.cart.length; i++){
+                // if the id of the current item matches one already in the cart, don't add a new item but increments quantity
                 if(this.cart[i].id === product.id){
                     return this.cart[i].quantity++
                 }
